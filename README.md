@@ -99,9 +99,12 @@ Sam W, Nate B, Dan S, Raymond X, Alan D, Dina L, Eunice K, Brian Z, Matt P, Lesl
 
 ##Ok, now how do we figure out URL handling
 ADI “sites-enabled” aka URL Handling Mechanism Script
+
 After you ssh into the website
 `cat ~../etc/nginx/sites-enabled/adi-website` to see what the rules are on the server. Edit `sites-enabled/adi-website` & make changes & save using vim/emacs/idk what else people use these days.
-I posted the contents of our current rewrite script to `sites-enabled-config` file on github. (It would be cool if we could start version controlling this, so that we have a changelist of these rules, but it’s not necessary at the moment.)
+
+*I posted the contents of our current rewrite script to `sites-enabled-config` file on [github](https://github.com/adicu/websites-infra/blob/master/sites-available-config).* (It would be cool if we could start version controlling this, so that we have a changelist of these rules, but it’s not necessary at the moment.)
+This is weird syntax at first so check out the tutorial below for help with understanding how the rewrites work. We have a ton of different ones! 
 
 ##Most important final steps
 Making sure those changes are enacted & you didn’t break everything
