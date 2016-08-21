@@ -7,7 +7,7 @@ Github: https://github.com/adicu/websites-infra
 
 
 ##How our urls work
-The current adi website, when you go to adicu.com/X or admin.adicu.com/X, if that page exists there as indicated by the most recently deployed code from the “adi-website” repo in Github to our server in the directory “/srv/adi-website/www”. If you want to see the various routes (different links) that ADI’s website has, they are defined initially in Flask here. You will see lines of code that look like this:
+The current adi website, when you go to adicu.com/X or admin.adicu.com/X, if that page exists there as indicated by the most recently deployed code from the “adi-website” repo in Github, which is copied to our server in the directory “/srv/adi-website/www”. If you want to see the various routes (different links) that ADI’s website has, they are defined initially in Flask here. You will see lines of code that look like this:
 `@client.route('/events/devfest', methods=['GET'])`
 
 `@client.route('/contact', methods=['GET'])`
