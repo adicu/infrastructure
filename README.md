@@ -1,7 +1,7 @@
 # websites-infra
-Where to go when troubleshooting URLs &amp; Beyond. Please add/remove/edit knowledge
+Where to go when troubleshooting URLs &amp; Beyond. Please add/remove/edit knowledge. Some info might be incomplete
 
-When updating any adi website configs, please try to commit those changes to the github so that we have a record of it somewhere & please try to update the documentation as necessary! Thanks to Dan for teaching me this stuff a while ago & I’m passing on the info in the best way I can! FYI if you want to know the process of pushing to the website, this is related to all the steps after you `git push deploy master` after adding new content.
+Thanks to Dan for teaching me this stuff a while ago & I’m passing on the info in the best way I can! FYI if you want to know the process of pushing to the website, this is related to all the steps after you `git push deploy master` after adding new content.
 
 Github: https://github.com/adicu/websites-infra
 
