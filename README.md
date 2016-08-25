@@ -1,18 +1,20 @@
 # websites-infra
-Where to go when troubleshooting URLs &amp; Beyond. Please add/remove/edit knowledge. Some info might be incomplete
+Where to go when troubleshooting URLs &amp; Beyond. Please add/remove/edit knowledge.Some info might be incomplete since Euni wrote this in a hurry.
 
-Thanks to Dan for teaching me this stuff a while ago & I’m passing on the info in the best way I can! FYI if you want to know the process of pushing to the website, this is related to all the steps after you `git push deploy master` after adding new content.
+Thanks to Dan for teaching me this stuff a while ago & I’m passing on the info in the best way I can! FYI if you want to know the process of pushing to the website, this is related to all the steps after you `git push deploy master` after adding new content. If you want to know how to deploy, learn about that [here](https://github.com/adicu/adi-website/blob/master/README.md#deployment) in the docs about our website.
 
 Github: https://github.com/adicu/websites-infra
 
 
 ##How our urls work
-The current adi website, when you go to adicu.com/X or admin.adicu.com/X, if that page exists there as indicated by the most recently deployed code from the “adi-website” repo in Github, which is copied to our server in the directory “/srv/adi-website/www”. If you want to see the various routes (different links) that ADI’s website has, they are defined initially in Flask here. You will see lines of code that look like this:
+The current adi website, when you go to adicu.com/X or admin.adicu.com/X, if that page exists there as indicated by the most recently deployed code from the “adi-website” [repo in Github](https://github.com/adicu/adi-website), which is copied to our server in the directory “/srv/adi-website/www”. If you want to see the various routes (different links) that ADI’s website has, they are defined initially in Flask here. You will see lines of code that look like this:
+
 `@client.route('/events/devfest', methods=['GET'])`
 
 `@client.route('/contact', methods=['GET'])`
 
 These lines tell our website’s app what to do once a client lands on that page. Usually it returns or shows the html file, and sometimes it adds extra data parameters. Other times, it redirects the page to somewhere else.
+
 `return render_template('foundry.html')`
 
 `return render_template('jobfair.html', companies=companies)`
@@ -26,10 +28,18 @@ However, when there isn’t a clear route to go to, for example if someone types
 You need ssh access in order to be able to access our server/be able to deploy live updates to the adi website/update any URL routing. Basically, the server needs to know that you and your computer are authorized users that can see and manipulate all the data that exists on our server.
 
 ##How to add people onto the server
+
+- More instructions in the [README](https://github.com/adicu/adi-website/blob/master/README.md#getting-ssh-access) of the adi-website
+
 ###For the person who already has access and wants to add others:
-`cd ~/root/.ssh`
-`cat authorized_keys` (check who already exists & save it to a TEMP txt file while you’re adding a new person)
-The person who wants to be added needs to go to their ssh directory and must copy their local public identity file which will be added to the list of authorized users.
+
+After you ssh into the server:
+```
+cd ~/root/.ssh
+cat authorized_keys
+``` 
+This is check who already exists & save it to a TEMP txt file while you’re adding a new person, just in case you erase everything.
+The person who wants to be added needs to go to their ssh directory and must copy their local public identity file which you will append to this `autorized_keys` list.
 
 ###For the person who wants access and wants to be added
 Two options
@@ -56,38 +66,13 @@ Host adi-website
 A snippet of how my file looks like. I use this config file for all the external machines I have access to.
 
 ```
-Host cunix
-  HostName cunix.columbia.edu
-  User eek2138
-  IdentityFile ~/.ssh/id_rsa
-
-Host clic
-  HostName clic.cs.columbia.edu
-  User eek2138
-  IdentityFile ~/.ssh/id_rsa
-
 Host adi-data
   HostName 104.131.202.10
   User root
   IdentityFile ~/.ssh/id_rsa
 
-Host adi-courses
-  HostName 192.241.189.115
-  User ubuntu
-  IdentityFile ~/.ssh/id_rsa
-
 Host adi-density
   HostName 104.131.178.179
-  User root
-  IdentityFile ~/.ssh/id_rsa
-
-Host db
-  HostName 40.121.62.121
-  User eunicekokor
-  IdentityFile ~/.ssh/id_rsa
-
-Host eunicode
-  HostName 192.241.220.88
   User root
   IdentityFile ~/.ssh/id_rsa
 ```
@@ -138,3 +123,7 @@ A useful command in debugging are the commands
 
 Learning about Nginx Rules and Beyond
 - [A tutorial to help you with nginx](https://www.nginx.com/blog/creating-nginx-rewrite-rules/)
+
+
+##Renewing the domain names adicu.com, columbia.io, devfe.st
+Not sure how this works! Someone is in charge of it though
