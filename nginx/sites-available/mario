@@ -1,0 +1,24 @@
+server {
+	listen 80;
+
+	server_name mario.adicu.com;
+
+	access_log /srv/mario/access.log;
+	error_log /srv/mario/error.log;
+
+	location / {
+		# NOTE: to swith from live to landing page or vice
+		# versa, comment out the configuration you would not
+		# like. Make sure to run `nginx -t` to make sure the
+		# config is still good before going live.
+
+		# LIVE
+		# proxy_set_header X-Forward-For $proxy_add_x_forwarded_for;
+		# proxy_set_header Host $http_host;
+		# proxy_redirect off;
+		# proxy_pass http://160.39.133.151:5000/;
+
+		# LANDING PAGE
+		root /mario/landing_page;
+	}
+}

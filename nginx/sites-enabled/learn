@@ -1,0 +1,28 @@
+server {
+	listen 443 ssl;
+	server_name learn.adicu.com;
+	root /srv/learn/public_html/;
+
+	ssl_certificate /etc/letsencrypt/live/adicu.com/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/adicu.com/privkey.pem;
+
+	access_log /srv/learn/logs/access.log;
+	error_log /srv/learn/logs/error.log;
+
+	location ~* ^/(.+)$ {
+		index index.html;	
+	}
+
+	location ~* ^/$ {
+		return 301 https://adicu.com/resources;
+	}
+}
+
+server {
+	listen 80;
+	server_name learn.adicu.com;
+
+	rewrite ^ https://learn.adicu.com$request_uri permanent;
+}
+
+
