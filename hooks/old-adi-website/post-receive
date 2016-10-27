@@ -1,0 +1,29 @@
+#!/bin/bash
+
+ADI_WWW=/srv/adi-website/www
+
+echo   "=================================="
+echo   "Deployment Starting"
+echo   "----------------------------------"
+echo   "Progress:"
+printf "Deploying adicu.com          "
+
+GIT_WORK_TREE=$ADI_WWW git checkout -f
+if [[ -z "$(ps -edaf | grep "^mongo")" ]]; then
+    mongod &  # only start mongo if it's not already running
+fi
+cd "$ADI_WWW"
+
+./deploy.sh
+printf "Done\n"
+
+echo   "----------------------------------"
+echo   "Status:"
+printf "adicu.com                    "
+if [[ -z "$(curl -Is https://adicu.com | head -1 | grep 200)" ]]; then
+    printf "Fail\n"
+else
+    printf "Live\n"
+fi
+
+exit

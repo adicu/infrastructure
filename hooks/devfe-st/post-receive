@@ -1,0 +1,33 @@
+#!/bin/bash
+
+DEVFEST_WWW=/srv/devfe-st/www
+
+echo   "=================================="
+echo   "Deployment Starting"
+echo   "----------------------------------"
+echo   "Progress:"
+printf "Deploying adicu.com          "
+
+if [[ -z "$(ps -edaf | grep "^mongo")" ]]; then
+    mongod &  # only start mongo if it's not already running
+fi
+
+printf "Deploying devfe.st           "
+GIT_WORK_TREE=$DEVFEST_WWW git checkout -f
+cd "$DEVFEST_WWW"
+docker build -t devfest .
+docker kill devfest
+docker rm devfest
+docker run --net=host -d --name="devfest" devfest
+printf "Done\n"
+
+echo   "----------------------------------"
+echo   "Status:"
+printf "devfe.st                     "
+if [[ -z "$(curl -Is http://devfe.st | head -1 | grep 200)" ]]; then
+    printf "Fail\n"
+else
+    printf "Live\n"
+fi
+
+exit

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+DENSITY_WWW=/srv/density/www
+
+echo   "=================================="
+echo   "Deployment Starting"
+echo   "----------------------------------"
+echo   "Progress:"
+printf "Deploying density.adicu.com          "
+
+GIT_WORK_TREE=$DENSITY_WWW git checkout -f
+cd "$DENSITY_WWW"
+docker build -t density .
+docker kill density
+docker rm density 
+docker run --net=host -v $DENSITY_WWW/../logs:/opt/logs -d --name="density" density 
+printf "Done\n"
+
+echo   "----------------------------------"
+echo   "Status:"
+printf "density.com                    "
+if [[ -z "$(curl -Is http://density.adicu.com | head -1 | grep 200)" ]]; then
+    printf "Fail\n"
+else
+    printf "Live\n"
+fi
+
+exit
