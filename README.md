@@ -46,7 +46,7 @@ Two options
 1. Using the computer you want access from:
 `cat ~/.ssh/id_rsa.pub`  & securely send this to the person adding you to the server
 2. If you are struggling with copy paste/want an easier command, use this command instead
-`echo ~/.ssh/id_rsa.pub | pbcopy` (auto copies it to your clipboard) & ctrl+V that in an email/chat to the person that’s adding you.
+`cat ~/.ssh/id_rsa.pub | pbcopy` (auto copies it to your clipboard) & ctrl+V that in an email/chat to the person that’s adding you.
 
 ##How to ssh into the website. 
 You can ssh into the host’s ip, which the command would be `ssh root@162.243.116.41`
