@@ -6,7 +6,7 @@ Thanks to Dan for teaching me this stuff a while ago & I’m passing on the info
 Github: https://github.com/adicu/websites-infra
 
 
-##How our urls work
+## How our urls work
 The current adi website, when you go to adicu.com/X or admin.adicu.com/X, if that page exists there as indicated by the most recently deployed code from the “adi-website” [repo in Github](https://github.com/adicu/adi-website), which is copied to our server in the directory “/srv/adi-website/www”. If you want to see the various routes (different links) that ADI’s website has, they are defined initially in Flask here. You will see lines of code that look like this:
 
 `@client.route('/events/devfest', methods=['GET'])`
@@ -27,7 +27,7 @@ However, when there isn’t a clear route to go to, for example if someone types
 
 You need ssh access in order to be able to access our server/be able to deploy live updates to the adi website/update any URL routing. Basically, the server needs to know that you and your computer are authorized users that can see and manipulate all the data that exists on our server.
 
-##How to add people onto the server
+## How to add people onto the server
 
 - More instructions in the [README](https://github.com/adicu/adi-website/blob/master/README.md#getting-ssh-access) of the adi-website
 
@@ -48,7 +48,7 @@ Two options
 2. If you are struggling with copy paste/want an easier command, use this command instead
 `cat ~/.ssh/id_rsa.pub | pbcopy` (auto copies it to your clipboard) & ctrl+V that in an email/chat to the person that’s adding you.
 
-##How to ssh into the website. 
+## How to ssh into the website. 
 You can ssh into the host’s ip, which the command would be `ssh root@162.243.116.41`
 
 An easier way would be go create or edit a config file, which gives an alias to that login to a server, so you don’t always have to remember the server name. Once you have a file that has all the necessary information, you can instead do `ssh adi-website`.
@@ -78,11 +78,11 @@ Host adi-density
 ```
 
 
-##Who has access right now to add you to the server & do the above steps 
+## Who has access right now to add you to the server & do the above steps 
 (I just typed in `cat autorized_keys` and looked at the names)
 Sam W, Nate B, Dan S, Raymond X, Alan D, Dina L, Eunice K, Brian Z, Matt P, Lesley C
 
-##Ok, now how do we figure out URL handling
+## Ok, now how do we figure out URL handling
 ADI “sites-enabled” aka URL Handling Mechanism Script
 
 After you ssh into the website
@@ -91,7 +91,7 @@ After you ssh into the website
 *I posted the contents of our current rewrite script to `sites-enabled-config` file on [github](https://github.com/adicu/websites-infra/blob/master/sites-available-config).* (It would be cool if we could start version controlling this, so that we have a changelist of these rules, but it’s not necessary at the moment.)
 This is weird syntax at first so check out the tutorial below for help with understanding how the rewrites work. We have a ton of different ones! 
 
-##Most important final steps
+## Most important final steps
 Making sure those changes are enacted & you didn’t break everything
 Save those changes
 `sudo nginx -t`
@@ -105,7 +105,7 @@ Note: the websites will be down during this period, but should come up within a 
 We should try for only a few people at a time to actually change nginx URL rules. All of ADI’s websites could go down if something goes wrong here and it’s easier to debug to know who made a change and when. Slack the #adi-website channel if you want to add something, either if you want to do it yourself or work with someone else to debug a problem.
 
 
-##Debugging & Learning
+## Debugging & Learning
 
 Use the Logs on the Server
 Where adi-website logs are located
@@ -125,5 +125,5 @@ Learning about Nginx Rules and Beyond
 - [A tutorial to help you with nginx](https://www.nginx.com/blog/creating-nginx-rewrite-rules/)
 
 
-##Renewing the domain names adicu.com, columbia.io, devfe.st
+## Renewing the domain names adicu.com, columbia.io, devfe.st
 Not sure how this works! Someone is in charge of it though
