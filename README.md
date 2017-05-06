@@ -137,7 +137,7 @@ cat /srv/adi-website/www/config/installed_app_credentials.json
 
 This should output something like:
 
-````
+```
 {"_module": "oauth2client.client", "scopes": ["https://www.googleapis.com/auth/calendar"], "token_expiry": "2016-11-02T05:26:26Z", ... more stuff here ..., "user_agent": null}
 ```
 
