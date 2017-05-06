@@ -31,7 +31,7 @@ You need ssh access in order to be able to access our server/be able to deploy l
 
 - More instructions in the [README](https://github.com/adicu/adi-website/blob/master/README.md#getting-ssh-access) of the adi-website
 
-###For the person who already has access and wants to add others:
+### For the person who already has access and wants to add others:
 
 After you ssh into the server:
 ```
@@ -41,7 +41,8 @@ cat authorized_keys
 This is check who already exists & save it to a TEMP txt file while you’re adding a new person, just in case you erase everything.
 The person who wants to be added needs to go to their ssh directory and must copy their local public identity file which you will append to this `autorized_keys` list.
 
-###For the person who wants access and wants to be added
+### For the person who wants access and wants to be added
+
 Two options
 1. Using the computer you want access from:
 `cat ~/.ssh/id_rsa.pub`  & securely send this to the person adding you to the server
@@ -49,6 +50,7 @@ Two options
 `cat ~/.ssh/id_rsa.pub | pbcopy` (auto copies it to your clipboard) & ctrl+V that in an email/chat to the person that’s adding you.
 
 ## How to ssh into the website. 
+
 You can ssh into the host’s ip, which the command would be `ssh root@162.243.116.41`
 
 An easier way would be go create or edit a config file, which gives an alias to that login to a server, so you don’t always have to remember the server name. Once you have a file that has all the necessary information, you can instead do `ssh adi-website`.
@@ -126,4 +128,23 @@ Learning about Nginx Rules and Beyond
 
 
 ## Renewing the domain names adicu.com, columbia.io, devfe.st
-Not sure how this works! Someone is in charge of it though
+
+To check whether our google calendar credentials have expired, use the following command:
+
+```
+cat /srv/adi-website/www/config/installed_app_credentials.json
+```
+
+This should output something like:
+
+````
+{"_module": "oauth2client.client", "scopes": ["https://www.googleapis.com/auth/calendar"], "token_expiry": "2016-11-02T05:26:26Z", ... more stuff here ..., "user_agent": null}
+```
+
+And then take note of the `token_expiry`.
+
+## Google Credentials
+
+`client_secrets.json` and `installed_app_client_secrets.json` are both downloaded from the Google Cloud console project associated with ADI Website. `installed_app_client_secrets` is the secret key for the "installed app" which allows us to make calls to google apis on behalf of the application (no specific user). We use it to make calls to google calendar (we aren't accessing any particular user's calendar, just ADI website's.  
+
+`client_secrets.json` is used as a secret for the OAuth login (log in using Google). We need both because some requests need to be made without a logged in user's authorization.  Then we generate `installed_app_credentials.json` from installed_app_client_secrets.json using the `python -m eventum.authorize [params]` line.
