@@ -1,0 +1,23 @@
+server {
+	listen 80;
+	server_name 2016.devfe.st;
+
+	root /srv/2016.devfe.st/public_html;
+	access_log /srv/2016.devfe.st/logs/access.log;
+	error_log /srv/2016.devfe.st/logs/error.log;
+
+	location / {
+		index index.html;
+	}
+
+    listen 443 ssl; # managed by Certbot
+ssl_certificate /etc/letsencrypt/live/2016.devfe.st/fullchain.pem; # managed by Certbot
+ssl_certificate_key /etc/letsencrypt/live/2016.devfe.st/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+
+
+    if ($scheme != "https") {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+}

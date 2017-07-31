@@ -2,46 +2,64 @@ server {
 	listen 80;
 	server_name devfe.st;
 
-	root /srv/2016.devfe.st/public_html;
-	access_log /srv/2016.devfe.st/logs/access.log;
-	error_log /srv/2016.devfe.st/logs/error.log;
+	root /srv/2017.devfe.st/public_html;
+	access_log /srv/2017.devfe.st/logs/access.log;
+	error_log /srv/2017.devfe.st/logs/error.log;
 
 	location / {
 		index index.html;
 	}
+
+    listen 443 ssl; # managed by Certbot
+ssl_certificate /etc/letsencrypt/live/adicu.com/fullchain.pem; # managed by Certbot
+ssl_certificate_key /etc/letsencrypt/live/adicu.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+
+
+    if ($scheme != "https") {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
 }
 
 server {
 	listen 80;
 	server_name conduct.devfe.st;
-	rewrite ^ http://devfe.st/static/DevFest2016CodeofConduct.pdf permanent;
+	rewrite ^ https://devfe.st/static/DevFest2017CodeofConduct.pdf permanent;
+
+    listen 443 ssl; # managed by Certbot
+ssl_certificate /etc/letsencrypt/live/adicu.com/fullchain.pem; # managed by Certbot
+ssl_certificate_key /etc/letsencrypt/live/adicu.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+
+
+    # Redirect non-https traffic to https
+    # if ($scheme != "https") {
+    #     return 301 https://$host$request_uri;
+    # } # managed by Certbot
+
 }
 
 server {
 	listen 80;
 	server_name learn.devfe.st;
 
-	root /srv/2016.devfe.st/public_html/learn;
+	root /srv/2017.devfe.st/public_html/learn;
 	access_log /srv/2016.devfe.st/logs/access.log;
 	error_log /srv/devfe-st/logs/error.log;
 
 	location / {
 		index index.html;
 	}
-}
 
-server {
-	listen 80;
-	server_name 2015.devfe.st;
+    listen 443 ssl; # managed by Certbot
+ssl_certificate /etc/letsencrypt/live/adicu.com/fullchain.pem; # managed by Certbot
+ssl_certificate_key /etc/letsencrypt/live/adicu.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
 
-	root /srv/devfe-st/www;
-	access_log /srv/devfe-st/logs/access.log;
-	error_log /srv/devfe-st/logs/error.log;
 
-	location / {
-		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-		proxy_set_header Host $http_host;
-		proxy_redirect off;
-		proxy_pass http://127.0.0.1:6001;
-	}
+    if ($scheme != "https") {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
 }

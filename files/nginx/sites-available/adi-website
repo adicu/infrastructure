@@ -1,14 +1,8 @@
-server { 
-	listen 443 ssl;
+server {
+	listen 80;
 	server_name adicu.com;
+
 	root /srv/adi-website/www;
-
-	ssl_certificate /etc/letsencrypt/live/adicu.com/fullchain.pem;
-	ssl_certificate_key /etc/letsencrypt/live/adicu.com/privkey.pem;
-
-	# ssl_certificate /srv/adi-website/ssl/unified.crt;
-	# ssl_certificate_key /srv/adi-website/ssl/adicu.com.key;
-
 	access_log /srv/adi-website/logs/access.log;
 	error_log /srv/adi-website/logs/error.log;
 
@@ -18,68 +12,15 @@ server {
 		proxy_redirect off;
 		proxy_pass http://127.0.0.1:8181;
 	}
-}
 
-server {
-	listen 80;
-
-	server_name adicu.com;
-	return 301 https://$host$request_uri;
-}
-
-server {
-	listen 80;
-	server_name *.adicu.com;
-
-	return 301 https://adicu.com$request_uri;
-}
-
-server {
-	listen 443 ssl;
-	server_name *.adicu.com;
-
-	ssl_certificate /etc/letsencrypt/live/adicu.com/fullchain.pem;
-	ssl_certificate_key /etc/letsencrypt/live/adicu.com/privkey.pem;
-
-	return 301 https://adicu.com$request_uri;
-}
-
-server {
-	listen 80;
-	server_name courses.adicu.com;
-	rewrite ^ https://adicu.com/labs permanent;
-}
-
-server {
-	listen 80;
-	server_name labs.adicu.com;
-	return 301 https://adicu.com/labs;
-}
-
-server {
-	listen 80;
-	server_name docs.adicu.com;
-
-	access_log /srv/docs/logs/access.log;
-	error_log /srv/docs/logs/error.log;
+    listen 443 ssl; # managed by Certbot
+ssl_certificate /etc/letsencrypt/live/adicu.com/fullchain.pem; # managed by Certbot
+ssl_certificate_key /etc/letsencrypt/live/adicu.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
 
 
-	root /srv/docs/public_html/;
-	location / {
-		index index.html;	
-	}
-}
+    if ($scheme != "https") {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
 
-server {
-	listen 80;
-	server_name wiki.adicu.com;
-
-	rewrite ^ http://github.com/adicu/secrets/wiki$request_uri? permanent;
-}
-
-server {
-	listen 80; 
-	server_name newsletter.adicu.com;
-
-	return 301 https://docs.google.com/a/adicu.com/forms/d/1rP0epIrBmFwIxrzSN0eqq_-pznytpdBa_qc5k1aUx4c/viewform;
 }
