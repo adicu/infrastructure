@@ -1,47 +1,31 @@
 # Deployment
 
-We use [gitolite](http://gitolite.com/gitolite/index.html) to manage our
-deployment. Gitolite's documentation is already quite comprehensive, but
-this document will give you the basics.
+There are usually a couple parts to our deployment:
 
-If you are properly authenticated, then you should be able to deploy any
-of our code bases via:
+## Nginx
 
-```
-git push git@adicu.com:<repository name>
-```
+A sub-domain allows us to have different `*.adicu.com` websites (e.g.
+`density.adicu.com` or `learn.adicu.com`). We use
+[nginx](https://www.nginx.com/) to configure this domain.
 
+The two interesting directories are `/etc/nginx/sites-available` (which
+defines all the availale websites) and `/etc/nginx/sites-enabled` (which
+has all of our currently running websites). All the files in
+`/etc/nginx/sites-enabled` are symlinks to files in
+`/etc/nginx/sites-available`.
 
-## Configuration
+These usually point to directories in `/srv/`, which holds the logs and
+source code for our different services.
 
-Most of the configuration for gitolite lives in our
-[gitolite-admin](https://github.com/adicu/gitolite-admin) repository,
-inside the `conf/gitolite.conf` file. This file controls who gets access
-to what repository, as well as what git hooks get run where.
+## Let's Encrypt
 
-If you are part of the `@admin` group, then you have Read, Write, and
-delete access to all repository. In particular, you have `RW+` access
-to the `gitolite-admin` repository (and thus have control
-over who has access to the other repositories). Whenever you push the
-`gitolite-admin` repository to `git@adicu.com:gitolite-admin`,
-`gitolite` will automatically apply and-and-all changes you've made.
+For SSL security, we use [certbot-auto](https://certbot.eff.org/) to
+manage [Let's Encrypt](https://letsencrypt.org/) certificates.
 
+## Docker
 
-## Authentication
+For static websites, we usually put the appropriate files into
+`/srv/<name>/public_html` (as dictated by the nginx setup).
 
-Authentication is controlled via `ssh`. To give someone access to a
-repository, merely place their public ssh key into the `keydir`. If the
-file containing their key is named `<name>.key`, then you can refer to
-them in `conf/gitolite.conf` as `<name>`.
-
-
-## Git Hooks
-
-All our git hooks are placed in `local/hooks/repo-specific`. They are
-wired to the appropriate repository in the `conf/gitolite.conf` via the:
-
-```
-option hook.post-receive    =   <hook name>
-```
-
-lines.
+For non-static websites, we use Docker, which handles automatic restarts
+for us.
